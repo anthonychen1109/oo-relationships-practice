@@ -1,49 +1,57 @@
-require 'pry'
 require_relative './dessert'
+require 'pry'
 
 class Bakery
 
-  @@all = []
-  attr_accessor :location
   attr_reader :name
+  attr_accessor :location
+  @@all = []
 
   def initialize(name, location)
     @name = name
     @location = location
-    # @desserts = []
+    @desserts = []
     @@all << self
   end
 
-  def make_dessert(dessert_name, price, ingredients)
-    dessert = Desserts.new(dessert_name, price, self, ingredients)
-    # @desserts.push(dessert)
+  def make_dessert(name, price, ingredients)
+    dessert = Dessert.new(name, price, self, ingredients)
+    @desserts.push(dessert)
   end
 
-  def desserts
-    Desserts.all.select do |dessert|
-      binding.pry
+  def bakery
+    Dessert.all.select do |dessert|
       dessert.bakery == self
     end
   end
 
+  def desserts
+    puts @desserts
+  end
+
   def ingredients
-    self.desserts.map do |dessert|
+    ingredients = self.bakery.select do |bakery|
+      bakery.ingredients
+    end
+    ingredients
+  end
+
+  def average_calories
+    self.ingredients.map do |ingredient|
       binding.pry
-      dessert.ingredients
     end
   end
 
-  def self.all
-    return @@all
-  end
-
   def shopping_list
-
+    self.ingredients.map do |ingredient|
+      ingredient.name
+    end
   end
 
 end
 
-marthas = Bakery.new('Marthas', 'Bayside')
-marthas.make_dessert('Chocolate cake', 3, 'chocolate')
-puts marthas.desserts
-marthas.ingredients
+new_bakery = Bakery.new('Marthas', 'Bayside')
+new_bakery1 = Bakery.new('Ralphs', 'Whitestone')
+new_bakery.make_dessert('Chocolate Cake', 5, ["chocolate", "sugar", 'sprinkles'])
+new_bakery1.make_dessert('Chocolate Moose', 5, ["chocolate", "sugar"])
+new_bakery1.average_calories

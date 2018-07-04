@@ -1,9 +1,7 @@
-class Ingredients
+class Ingredient
 
+  attr_reader :name, :calorie, :dessert
   @@all = []
-
-  attr_accessor :dessert, :calorie
-  attr_reader :name
 
   def initialize(name, dessert, calorie)
     @name = name
@@ -14,12 +12,6 @@ class Ingredients
 
   def self.all
     @@all
-  end
-
-  def find_all_by_name(name)
-    @@all.select do |ingredient|
-      ingredient.include?(name)
-    end
   end
 
 end
